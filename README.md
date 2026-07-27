@@ -38,3 +38,16 @@ BugPilot AI helps developers analyze software issues using Artificial Intelligen
 🚧 Under Development
 
 Version: 0.1.0
+
+
+## 🚧 Current Progress
+
+- [x] GitHub Repository
+- [x] Project Planning
+- [x] Spring Boot Backend Initialized
+- [ ] Authentication
+- [ ] Database
+- [ ] GitHub Integration
+- [ ] AI Analysis
+- [ ] Frontend
+- [ ] Deployment
