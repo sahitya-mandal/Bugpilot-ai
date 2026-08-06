@@ -1,5 +1,6 @@
 package com.bugpilot.controller;
 
+import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -36,5 +37,12 @@ public class UserController {
                            @RequestBody User user) {
 
         return userService.updateUser(id, user);
+    }
+    @DeleteMapping("/users/{id}")
+    public String deleteUser(@PathVariable Long id) {
+
+        userService.deleteUser(id);
+
+        return "User deleted successfully.";
     }
 }
