@@ -42,12 +42,18 @@ Version: 0.1.0
 
 ## 🚧 Current Progress
 
-- [x] GitHub Repository
-- [x] Project Planning
-- [x] Spring Boot Backend Initialized
-- [ ] Authentication
-- [ ] Database
-- [ ] GitHub Integration
-- [ ] AI Analysis
-- [ ] Frontend
-- [ ] Deployment
+### Backend
+- [x] Spring Boot Project
+- [x] PostgreSQL Connection
+- [x] User CRUD APIs
+- [x] Global Exception Handling
+- [x] Request Validation
+- [ ] DTO Layer
+- [ ] Authentication (JWT)
+
+### AI Features
+- [ ] AI Bug Analysis
+- [ ] Repository Intelligence
+
+### Frontend
+- [ ] React Dashboard
