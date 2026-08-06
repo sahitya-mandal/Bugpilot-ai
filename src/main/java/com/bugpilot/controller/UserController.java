@@ -1,5 +1,6 @@
 package com.bugpilot.controller;
 
+import jakarta.validation.Valid;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -21,7 +22,7 @@ public class UserController {
     }
 
     @PostMapping("/users")
-    public User createUser(@RequestBody User user) {
+    public User createUser(@Valid @RequestBody User user) {
         return userService.createUser(user);
     }
     @GetMapping("/users")
@@ -34,7 +35,7 @@ public class UserController {
     }
     @PutMapping("/users/{id}")
     public User updateUser(@PathVariable Long id,
-                           @RequestBody User user) {
+                           @Valid @RequestBody User user) {
 
         return userService.updateUser(id, user);
     }
