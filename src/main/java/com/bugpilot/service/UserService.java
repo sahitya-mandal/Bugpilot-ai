@@ -5,21 +5,24 @@ import com.bugpilot.dto.UserResponse;
 import com.bugpilot.entity.User;
 import com.bugpilot.exception.UserNotFoundException;
 import com.bugpilot.repository.UserRepository;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
-import java.util.ArrayList;
 import java.util.List;
+import java.util.stream.Collectors;
 
 @Service
 public class UserService {
 
     private final UserRepository userRepository;
+    private final PasswordEncoder passwordEncoder;
 
-    public UserService(UserRepository userRepository) {
+    public UserService(UserRepository userRepository,
+                       PasswordEncoder passwordEncoder) {
         this.userRepository = userRepository;
+        this.passwordEncoder = passwordEncoder;
     }
 
-    // Create User
     public UserResponse createUser(UserRequest userRequest) {
 
         User user = new User();
@@ -27,52 +30,31 @@ public class UserService {
         user.setName(userRequest.getName());
         user.setEmail(userRequest.getEmail());
 
+        // Hash password before saving
+        user.setPassword(passwordEncoder.encode(userRequest.getPassword()));
+
+        user.setRole(userRequest.getRole());
+
         User savedUser = userRepository.save(user);
 
-        UserResponse response = new UserResponse();
-        response.setId(savedUser.getId());
-        response.setName(savedUser.getName());
-        response.setEmail(savedUser.getEmail());
-
-        return response;
+        return mapToResponse(savedUser);
     }
 
-    // Get All Users
     public List<UserResponse> getAllUsers() {
-
-        List<User> users = userRepository.findAll();
-        List<UserResponse> responses = new ArrayList<>();
-
-        for (User user : users) {
-
-            UserResponse response = new UserResponse();
-
-            response.setId(user.getId());
-            response.setName(user.getName());
-            response.setEmail(user.getEmail());
-
-            responses.add(response);
-        }
-
-        return responses;
+        return userRepository.findAll()
+                .stream()
+                .map(this::mapToResponse)
+                .collect(Collectors.toList());
     }
 
-    // Get User By Id
     public UserResponse getUserById(Long id) {
 
         User user = userRepository.findById(id)
                 .orElseThrow(() -> new UserNotFoundException(id));
 
-        UserResponse response = new UserResponse();
-
-        response.setId(user.getId());
-        response.setName(user.getName());
-        response.setEmail(user.getEmail());
-
-        return response;
+        return mapToResponse(user);
     }
 
-    // Update User
     public UserResponse updateUser(Long id, UserRequest userRequest) {
 
         User existingUser = userRepository.findById(id)
@@ -80,24 +62,31 @@ public class UserService {
 
         existingUser.setName(userRequest.getName());
         existingUser.setEmail(userRequest.getEmail());
+        existingUser.setPassword(passwordEncoder.encode(userRequest.getPassword()));
+        existingUser.setRole(userRequest.getRole());
 
-        User savedUser = userRepository.save(existingUser);
+        User updatedUser = userRepository.save(existingUser);
 
-        UserResponse response = new UserResponse();
-
-        response.setId(savedUser.getId());
-        response.setName(savedUser.getName());
-        response.setEmail(savedUser.getEmail());
-
-        return response;
+        return mapToResponse(updatedUser);
     }
 
-    // Delete User
     public void deleteUser(Long id) {
 
         User existingUser = userRepository.findById(id)
                 .orElseThrow(() -> new UserNotFoundException(id));
 
         userRepository.delete(existingUser);
+    }
+
+    private UserResponse mapToResponse(User user) {
+
+        UserResponse response = new UserResponse();
+
+        response.setId(user.getId());
+        response.setName(user.getName());
+        response.setEmail(user.getEmail());
+        response.setRole(user.getRole());
+
+        return response;
     }
 }

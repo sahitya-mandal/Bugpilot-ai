@@ -1,10 +1,13 @@
 package com.bugpilot.dto;
 
+import com.bugpilot.enums.Role;
+
 public class UserResponse {
 
     private Long id;
     private String name;
     private String email;
+    private Role role;
 
     public UserResponse() {
     }
@@ -31,5 +34,13 @@ public class UserResponse {
 
     public void setEmail(String email) {
         this.email = email;
+    }
+
+    public Role getRole() {
+        return role;
+    }
+
+    public void setRole(Role role) {
+        this.role = role;
     }
 }
