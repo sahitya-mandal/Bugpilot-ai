@@ -1,16 +1,12 @@
 package com.bugpilot.controller;
 
-import jakarta.validation.Valid;
-import org.springframework.web.bind.annotation.DeleteMapping;
-import org.springframework.web.bind.annotation.PutMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.GetMapping;
-import java.util.List;
-import com.bugpilot.entity.User;
+import com.bugpilot.dto.UserRequest;
+import com.bugpilot.dto.UserResponse;
 import com.bugpilot.service.UserService;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RestController;
+import jakarta.validation.Valid;
+import org.springframework.web.bind.annotation.*;
+
+import java.util.List;
 
 @RestController
 public class UserController {
@@ -22,23 +18,27 @@ public class UserController {
     }
 
     @PostMapping("/users")
-    public User createUser(@Valid @RequestBody User user) {
-        return userService.createUser(user);
+    public UserResponse createUser(@Valid @RequestBody UserRequest userRequest) {
+        return userService.createUser(userRequest);
     }
+
     @GetMapping("/users")
-    public List<User> getAllUsers() {
+    public List<UserResponse> getAllUsers() {
         return userService.getAllUsers();
     }
+
     @GetMapping("/users/{id}")
-    public User getUserById(@PathVariable Long id) {
+    public UserResponse getUserById(@PathVariable Long id) {
         return userService.getUserById(id);
     }
-    @PutMapping("/users/{id}")
-    public User updateUser(@PathVariable Long id,
-                           @Valid @RequestBody User user) {
 
-        return userService.updateUser(id, user);
+    @PutMapping("/users/{id}")
+    public UserResponse updateUser(@PathVariable Long id,
+                                   @Valid @RequestBody UserRequest userRequest) {
+
+        return userService.updateUser(id, userRequest);
     }
+
     @DeleteMapping("/users/{id}")
     public String deleteUser(@PathVariable Long id) {
 
