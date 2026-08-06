@@ -48,7 +48,7 @@ Version: 0.1.0
 - [x] User CRUD APIs
 - [x] Global Exception Handling
 - [x] Request Validation
-- [ ] DTO Layer
+- [x] DTO Layer
 - [ ] Authentication (JWT)
 
 ### AI Features
